@@ -86,7 +86,7 @@ public class TrainingSetGenerator {
 	 *            a set of strings all within 1 edit distance from each other.
 	 * @return a set of strings all within 2 edit distances from each other.
 	 */
-	public Multiset<String> editDistance2(Set<String> editsOne) {
+	public Multiset<String> editDist2(Multiset<String> editsOne) {
 
 		Multiset<String> editsTwo = HashMultiset.create();
 		

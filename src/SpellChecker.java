@@ -4,6 +4,7 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
 
 /*
@@ -34,14 +35,24 @@ public class SpellChecker {
 				if (word.equals("quit")) {
 					quit = true;
 				} else {
-					//Set<String> candidates = 
+					Multiset<String> wordItself = HashMultiset.create();
+					wordItself.add(word);
+					Multiset<String> candidates = HashMultiset.create();
+					candidates.addAll(getKnownWords(wordItself));
+					candidates.addAll(getKnownWords(trainingGenerator
+							.editDist1(word)));
+					candidates.addAll(getKnownWords(trainingGenerator
+							.editDist2(trainingGenerator.editDist1(word))));\
+					candidates.addAll(wordItself);
+	
+
 				}
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 				System.exit(1);
 			}
 		}
-		
+
 		System.exit(1);
 
 	}
@@ -54,8 +65,9 @@ public class SpellChecker {
 		}
 	}
 
-	private Set<String> getKnownWords(Set<String> candidateWords) {
-		Set<String> verifiedWords = new HashSet<String>();
+	private static Multiset<String> getKnownWords(
+			Multiset<String> candidateWords) {
+		Multiset<String> verifiedWords = HashMultiset.create();
 
 		for (String candidate : candidateWords) {
 			if (knownWords.contains(candidate)) {
@@ -65,5 +77,19 @@ public class SpellChecker {
 
 		return verifiedWords;
 
+	}
+	
+	private static String max(Multiset<String> choices) {
+		int maxCount = Integer.MIN_VALUE;
+		String bestCandidate = "";
+		
+		for (Multiset.Entry<String> choice : choices.entrySet()) {
+			if (choice.getCount() > maxCount) {
+				maxCount = choice.getCount();
+				bestCandidate = choice.getElement();
+			}
+		}
+		
+		return bestCandidate;
 	}
 }
