@@ -68,22 +68,22 @@ public class TrainingSetGenerator {
 	public Set<String> editDist1(String word) {
 
 		Set<Tuple<String, String>> splits = buildSplits(word);
-		
+
 		Set<String> deletes = buildDeletes(splits);
-		
-		for (String delete : deletes) {
-			System.out.println(delete);
-		}
-		
 		Set<String> transposes = buildTransposes(splits);
 		Set<String> replaces = buildReplaces(splits);
+		
+		for (String transpose : transposes) {
+			System.out.println(transpose);
+		}
+		
 		Set<String> inserts = buildInserts(splits);
 
 		Set<String> combined = new HashSet<String>();
-		//combined.addAll(deletes);
-		//combined.addAll(transposes);
-		//combined.addAll(replaces);
-		//combined.addAll(inserts);
+		combined.addAll(deletes);
+		combined.addAll(transposes);
+		// combined.addAll(replaces);
+		// combined.addAll(inserts);
 
 		return combined;
 
@@ -100,30 +100,43 @@ public class TrainingSetGenerator {
 	}
 
 	private Set<String> buildTransposes(Set<Tuple<String, String>> splits) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Set<String> transposes = new HashSet<String>();
+
+		for (Tuple<String, String> tuple : splits) {
+			if (tuple.getTwo().length() > 1) {
+				transposes.add(new String(tuple.getOne()
+						+ tuple.getTwo().substring(1, 2)
+						+ tuple.getTwo().substring(0, 1)
+						+ tuple.getTwo().substring(2)));
+			}
+		}
+
+		return transposes;
+
 	}
 
 	private Set<String> buildDeletes(Set<Tuple<String, String>> splits) {
-		
+
 		Set<String> deletes = new HashSet<String>();
-		
+
 		for (Tuple<String, String> tuple : splits) {
-			deletes.add(new String(tuple.getOne() + tuple.getTwo().substring(1)));
+			if (tuple.getTwo().length() != 0) {
+				deletes.add(new String(tuple.getOne()
+						+ tuple.getTwo().substring(1)));
+			}
 		}
-		
+
 		return deletes;
 	}
 
 	private Set<Tuple<String, String>> buildSplits(String word) {
 		Set<Tuple<String, String>> splits = new HashSet<Tuple<String, String>>();
 
-		for (int i = 0; i < word.length()+1; i++) {
+		for (int i = 0; i < word.length() + 1; i++) {
 			splits.add(new Tuple<String, String>(word.substring(0, i), word
 					.substring(i, word.length())));
 		}
-		
-		//splits.add(new Tuple<String, String>(word, ""));
 
 		return splits;
 	}
@@ -145,7 +158,7 @@ public class TrainingSetGenerator {
 		public T getTwo() {
 			return this.two;
 		}
-		
+
 		@Override
 		public String toString() {
 			return "[" + one.toString() + "," + two.toString() + "]";
