@@ -72,17 +72,16 @@ public class TrainingSetGenerator {
 		Set<String> deletes = buildDeletes(splits);
 		Set<String> transposes = buildTransposes(splits);
 		Set<String> replaces = buildReplaces(splits);
-
-		for (String replace : replaces) {
-			System.out.println(replace);
-		}
-
 		Set<String> inserts = buildInserts(splits);
+
+		for (String insert : inserts) {
+			System.out.println(insert);
+		}
 
 		Set<String> combined = new HashSet<String>();
 		combined.addAll(deletes);
 		combined.addAll(transposes);
-		// combined.addAll(replaces);
+		combined.addAll(replaces);
 		// combined.addAll(inserts);
 
 		return combined;
@@ -90,8 +89,19 @@ public class TrainingSetGenerator {
 	}
 
 	private Set<String> buildInserts(Set<Tuple<String, String>> splits) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Set<String> inserts = new HashSet<String>();
+
+		for (Tuple<String, String> tuple : splits) {
+			for (char letter : alphabet) {
+				inserts
+						.add(new String(tuple.getOne() + letter
+								+ tuple.getTwo()));
+			}
+		}
+
+		return inserts;
+
 	}
 
 	private Set<String> buildReplaces(Set<Tuple<String, String>> splits) {
