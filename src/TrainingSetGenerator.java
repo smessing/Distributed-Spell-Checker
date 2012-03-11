@@ -65,17 +65,36 @@ public class TrainingSetGenerator {
 	 *            the input string
 	 * @return a set of all strings one edit distance away.
 	 */
-	public Set<String> editDist1(String word) {
+	public Multiset<String> editDist1(String word) {
 
 		Set<Tuple<String, String>> splits = buildSplits(word);
 
-		Set<String> combined = new HashSet<String>();
+		Multiset<String> combined = HashMultiset.create();
 		combined.addAll(buildDeletes(splits));
 		combined.addAll(buildTransposes(splits));
 		combined.addAll(buildReplaces(splits));
 		combined.addAll(buildInserts(splits));
 
 		return combined;
+
+	}
+
+	/**
+	 * Computes all strings of edit distance 1 from a set of strings.
+	 * 
+	 * @param editsOne
+	 *            a set of strings all within 1 edit distance from each other.
+	 * @return a set of strings all within 2 edit distances from each other.
+	 */
+	public Multiset<String> editDistance2(Set<String> editsOne) {
+
+		Multiset<String> editsTwo = HashMultiset.create();
+		
+		for (String editOne : editsOne) {
+			editsTwo.addAll(editDist1(editOne));
+		}
+
+		return editsTwo;
 
 	}
 

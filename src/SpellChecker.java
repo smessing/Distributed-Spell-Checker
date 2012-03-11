@@ -1,3 +1,7 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.HashSet;
 import java.util.Set;
 
 import com.google.common.collect.Multiset;
@@ -9,6 +13,8 @@ import com.google.common.collect.Multiset;
 
 public class SpellChecker {
 
+	private static Set<Multiset.Entry<String>> knownWords;
+
 	/**
 	 * @param args
 	 */
@@ -16,10 +22,27 @@ public class SpellChecker {
 		usage(args);
 
 		TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
-		Set<Multiset.Entry<String>> numWords = trainingGenerator
-				.buildWordSet(args[0]);
+		knownWords = trainingGenerator.buildWordSet(args[0]);
+
+		boolean quit = false;
+		while (!quit) {
+			BufferedReader inputText = new BufferedReader(
+					new InputStreamReader(System.in));
+			System.out.print("Enter misspelled word: ");
+			try {
+				String word = inputText.readLine();
+				if (word.equals("quit")) {
+					quit = true;
+				} else {
+					//Set<String> candidates = 
+				}
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+				System.exit(1);
+			}
+		}
 		
-		trainingGenerator.editDist1("instructive");
+		System.exit(1);
 
 	}
 
@@ -31,4 +54,16 @@ public class SpellChecker {
 		}
 	}
 
+	private Set<String> getKnownWords(Set<String> candidateWords) {
+		Set<String> verifiedWords = new HashSet<String>();
+
+		for (String candidate : candidateWords) {
+			if (knownWords.contains(candidate)) {
+				verifiedWords.add(candidate);
+			}
+		}
+
+		return verifiedWords;
+
+	}
 }
