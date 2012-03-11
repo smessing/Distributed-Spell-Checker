@@ -72,11 +72,11 @@ public class TrainingSetGenerator {
 		Set<String> deletes = buildDeletes(splits);
 		Set<String> transposes = buildTransposes(splits);
 		Set<String> replaces = buildReplaces(splits);
-		
+
 		for (String replace : replaces) {
 			System.out.println(replace);
 		}
-		
+
 		Set<String> inserts = buildInserts(splits);
 
 		Set<String> combined = new HashSet<String>();
@@ -95,20 +95,20 @@ public class TrainingSetGenerator {
 	}
 
 	private Set<String> buildReplaces(Set<Tuple<String, String>> splits) {
-		
+
 		Set<String> replaces = new HashSet<String>();
-		
+
 		for (Tuple<String, String> tuple : splits) {
 			for (char letter : alphabet) {
 				if (tuple.getTwo().length() > 0) {
-					replaces.add(new String(tuple.getOne() +
-							letter + tuple.getTwo().substring(1)));
+					replaces.add(new String(tuple.getOne() + letter
+							+ tuple.getTwo().substring(1)));
 				}
 			}
 		}
-		
+
 		return replaces;
-		
+
 	}
 
 	private Set<String> buildTransposes(Set<Tuple<String, String>> splits) {
