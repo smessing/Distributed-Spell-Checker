@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -34,18 +36,21 @@ public class TrainingSetGenerator {
 		Multiset<String> wordOccurrences = null;
 		Pattern nonWord = Pattern.compile("[ \t\n\f\r-.,_;0-9?=:\\]\\[]+");
 
-
 		try {
-			wordOccurrences = HashMultiset.create(Splitter.on(nonWord)
-					.omitEmptyStrings().trimResults().split(
-							Files.toString(file, Charsets.UTF_8)));
+			Iterable<String> words = Splitter.on(nonWord).omitEmptyStrings().trimResults().split(
+					Files.toString(file, Charsets.UTF_8));
+			List<String> lowercaseWords = new ArrayList<String>();
+			for (String word : words) {
+				lowercaseWords.add(word.toLowerCase());
+			}
+			wordOccurrences = HashMultiset.create();
+			wordOccurrences.addAll(lowercaseWords);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 			System.err.printf("File not found! %s\n", fileName);
 		}
 
 		return wordOccurrences.entrySet();
-
 	}
 
 }
