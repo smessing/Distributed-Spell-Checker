@@ -69,20 +69,11 @@ public class TrainingSetGenerator {
 
 		Set<Tuple<String, String>> splits = buildSplits(word);
 
-		Set<String> deletes = buildDeletes(splits);
-		Set<String> transposes = buildTransposes(splits);
-		Set<String> replaces = buildReplaces(splits);
-		Set<String> inserts = buildInserts(splits);
-
-		for (String insert : inserts) {
-			System.out.println(insert);
-		}
-
 		Set<String> combined = new HashSet<String>();
-		combined.addAll(deletes);
-		combined.addAll(transposes);
-		combined.addAll(replaces);
-		// combined.addAll(inserts);
+		combined.addAll(buildDeletes(splits));
+		combined.addAll(buildTransposes(splits));
+		combined.addAll(buildReplaces(splits));
+		combined.addAll(buildInserts(splits));
 
 		return combined;
 
