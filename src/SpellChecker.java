@@ -18,10 +18,8 @@ public class SpellChecker {
 		TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
 		Set<Multiset.Entry<String>> numWords = trainingGenerator
 				.buildWordSet(args[0]);
-		for (Multiset.Entry<String> entry : numWords) {
-			System.out.printf("Word: %s, count: %d\n", entry.getElement(),
-					entry.getCount());
-		}
+		
+		trainingGenerator.editDist1("instructed");
 
 	}
 

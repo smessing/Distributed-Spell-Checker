@@ -66,19 +66,25 @@ public class TrainingSetGenerator {
 	 * @return a set of all strings one edit distance away.
 	 */
 	public Set<String> editDist1(String word) {
+
+		Set<Tuple<String, String>> splits = buildSplits(word);
 		
-		Set<String> splits = buildSplits(word);
-		Set<String> deletes = buildDeletes(splits);
-		Set<String> transposes = buildTransposes(splits);
-		Set<String> replaces = buildReplaces(splits);
-		Set<String> inserts = buildInserts(splits);
 		
+		for (Tuple<String, String> tuple : splits) {
+			System.out.println(tuple);
+		}
+		
+		//Set<String> deletes = buildDeletes(splits);
+		//Set<String> transposes = buildTransposes(splits);
+		//Set<String> replaces = buildReplaces(splits);
+		//Set<String> inserts = buildInserts(splits);
+
 		Set<String> combined = new HashSet<String>();
-		combined.addAll(deletes);
-		combined.addAll(transposes);
-		combined.addAll(replaces);
-		combined.addAll(inserts);
-		
+		//combined.addAll(deletes);
+		//combined.addAll(transposes);
+		//combined.addAll(replaces);
+		//combined.addAll(inserts);
+
 		return combined;
 
 	}
@@ -105,26 +111,36 @@ public class TrainingSetGenerator {
 
 	private Set<Tuple<String, String>> buildSplits(String word) {
 		Set<Tuple<String, String>> splits = new HashSet<Tuple<String, String>>();
-		
+
+		for (int i = 1; i < word.length(); i++) {
+			splits.add(new Tuple<String, String>(word.substring(0, i), word
+					.substring(i, word.length())));
+		}
+
 		return splits;
 	}
-	
-	private class Tuple<E, T> {
-		
+
+	protected class Tuple<E, T> {
+
 		private E one;
 		private T two;
-		
+
 		Tuple(E one, T two) {
 			this.one = one;
 			this.two = two;
 		}
-		
+
 		public E getOne() {
 			return this.one;
 		}
-		
+
 		public T getTwo() {
 			return this.two;
+		}
+		
+		@Override
+		public String toString() {
+			return "[" + one.toString() + "," + two.toString() + "]";
 		}
 	}
 
