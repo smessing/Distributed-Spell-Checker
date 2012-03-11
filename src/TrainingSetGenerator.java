@@ -1,6 +1,7 @@
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -65,8 +66,66 @@ public class TrainingSetGenerator {
 	 * @return a set of all strings one edit distance away.
 	 */
 	public Set<String> editDist1(String word) {
-		return null;
+		
+		Set<String> splits = buildSplits(word);
+		Set<String> deletes = buildDeletes(splits);
+		Set<String> transposes = buildTransposes(splits);
+		Set<String> replaces = buildReplaces(splits);
+		Set<String> inserts = buildInserts(splits);
+		
+		Set<String> combined = new HashSet<String>();
+		combined.addAll(deletes);
+		combined.addAll(transposes);
+		combined.addAll(replaces);
+		combined.addAll(inserts);
+		
+		return combined;
 
+	}
+
+	private Set<String> buildInserts(Set<String> splits) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Set<String> buildReplaces(Set<String> splits) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Set<String> buildTransposes(Set<String> splits) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Set<String> buildDeletes(Set<String> splits) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	private Set<Tuple<String, String>> buildSplits(String word) {
+		Set<Tuple<String, String>> splits = new HashSet<Tuple<String, String>>();
+		
+		return splits;
+	}
+	
+	private class Tuple<E, T> {
+		
+		private E one;
+		private T two;
+		
+		Tuple(E one, T two) {
+			this.one = one;
+			this.two = two;
+		}
+		
+		public E getOne() {
+			return this.one;
+		}
+		
+		public T getTwo() {
+			return this.two;
+		}
 	}
 
 }
