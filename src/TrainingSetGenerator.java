@@ -98,9 +98,9 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Set<String> buildInserts(Set<Tuple<String, String>> splits) {
+	private Multiset<String> buildInserts(Set<Tuple<String, String>> splits) {
 
-		Set<String> inserts = new HashSet<String>();
+		Multiset<String> inserts = HashMultiset.create();
 
 		for (Tuple<String, String> tuple : splits) {
 			for (char letter : alphabet) {
@@ -114,9 +114,9 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Set<String> buildReplaces(Set<Tuple<String, String>> splits) {
+	private Multiset<String> buildReplaces(Set<Tuple<String, String>> splits) {
 
-		Set<String> replaces = new HashSet<String>();
+		Multiset<String> replaces = HashMultiset.create();
 
 		for (Tuple<String, String> tuple : splits) {
 			for (char letter : alphabet) {
@@ -131,9 +131,9 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Set<String> buildTransposes(Set<Tuple<String, String>> splits) {
+	private Multiset<String> buildTransposes(Set<Tuple<String, String>> splits) {
 
-		Set<String> transposes = new HashSet<String>();
+		Multiset<String> transposes = HashMultiset.create();
 
 		for (Tuple<String, String> tuple : splits) {
 			if (tuple.getTwo().length() > 1) {
@@ -148,9 +148,9 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Set<String> buildDeletes(Set<Tuple<String, String>> splits) {
+	private Multiset<String> buildDeletes(Set<Tuple<String, String>> splits) {
 
-		Set<String> deletes = new HashSet<String>();
+		Multiset<String> deletes = HashMultiset.create();
 
 		for (Tuple<String, String> tuple : splits) {
 			if (tuple.getTwo().length() > 0) {
