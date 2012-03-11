@@ -38,13 +38,15 @@ public class SpellChecker {
 					Multiset<String> wordItself = HashMultiset.create();
 					wordItself.add(word);
 					Multiset<String> candidates = HashMultiset.create();
+					// currently all of these are returning null:
 					candidates.addAll(getKnownWords(wordItself));
 					candidates.addAll(getKnownWords(trainingGenerator
 							.editDist1(word)));
-					candidates.addAll(getKnownWords(trainingGenerator
-							.editDist2(trainingGenerator.editDist1(word))));\
-					candidates.addAll(wordItself);
-	
+					// too slow:
+					//candidates.addAll(getKnownWords(trainingGenerator
+					//		.editDist2(trainingGenerator.editDist1(word))));
+					trainingGenerator.editDist1(word);
+					System.out.printf("Correction: %s\n", max(candidates));
 
 				}
 			} catch (IOException ioe) {
@@ -70,26 +72,28 @@ public class SpellChecker {
 		Multiset<String> verifiedWords = HashMultiset.create();
 
 		for (String candidate : candidateWords) {
-			if (knownWords.contains(candidate)) {
-				verifiedWords.add(candidate);
+			for (Multiset.Entry<String> entry : knownWords) {
+				if (entry.getElement().equals(candidate)) {
+					verifiedWords.add(candidate);
+				}
 			}
 		}
-
+		
 		return verifiedWords;
 
 	}
-	
+
 	private static String max(Multiset<String> choices) {
 		int maxCount = Integer.MIN_VALUE;
 		String bestCandidate = "";
-		
+
 		for (Multiset.Entry<String> choice : choices.entrySet()) {
 			if (choice.getCount() > maxCount) {
 				maxCount = choice.getCount();
 				bestCandidate = choice.getElement();
 			}
 		}
-		
+
 		return bestCandidate;
 	}
 }
