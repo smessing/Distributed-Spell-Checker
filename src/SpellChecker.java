@@ -19,7 +19,7 @@ public class SpellChecker {
 		Set<Multiset.Entry<String>> numWords = trainingGenerator
 				.buildWordSet(args[0]);
 		
-		trainingGenerator.editDist1("instructed");
+		trainingGenerator.editDist1("instructive");
 
 	}
 

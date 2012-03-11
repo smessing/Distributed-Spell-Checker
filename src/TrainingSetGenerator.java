@@ -69,15 +69,15 @@ public class TrainingSetGenerator {
 
 		Set<Tuple<String, String>> splits = buildSplits(word);
 		
+		Set<String> deletes = buildDeletes(splits);
 		
-		for (Tuple<String, String> tuple : splits) {
-			System.out.println(tuple);
+		for (String delete : deletes) {
+			System.out.println(delete);
 		}
 		
-		//Set<String> deletes = buildDeletes(splits);
-		//Set<String> transposes = buildTransposes(splits);
-		//Set<String> replaces = buildReplaces(splits);
-		//Set<String> inserts = buildInserts(splits);
+		Set<String> transposes = buildTransposes(splits);
+		Set<String> replaces = buildReplaces(splits);
+		Set<String> inserts = buildInserts(splits);
 
 		Set<String> combined = new HashSet<String>();
 		//combined.addAll(deletes);
@@ -89,33 +89,41 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Set<String> buildInserts(Set<String> splits) {
+	private Set<String> buildInserts(Set<Tuple<String, String>> splits) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Set<String> buildReplaces(Set<String> splits) {
+	private Set<String> buildReplaces(Set<Tuple<String, String>> splits) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Set<String> buildTransposes(Set<String> splits) {
+	private Set<String> buildTransposes(Set<Tuple<String, String>> splits) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private Set<String> buildDeletes(Set<String> splits) {
-		// TODO Auto-generated method stub
-		return null;
+	private Set<String> buildDeletes(Set<Tuple<String, String>> splits) {
+		
+		Set<String> deletes = new HashSet<String>();
+		
+		for (Tuple<String, String> tuple : splits) {
+			deletes.add(new String(tuple.getOne() + tuple.getTwo().substring(1)));
+		}
+		
+		return deletes;
 	}
 
 	private Set<Tuple<String, String>> buildSplits(String word) {
 		Set<Tuple<String, String>> splits = new HashSet<Tuple<String, String>>();
 
-		for (int i = 1; i < word.length(); i++) {
+		for (int i = 0; i < word.length()+1; i++) {
 			splits.add(new Tuple<String, String>(word.substring(0, i), word
 					.substring(i, word.length())));
 		}
+		
+		//splits.add(new Tuple<String, String>(word, ""));
 
 		return splits;
 	}
