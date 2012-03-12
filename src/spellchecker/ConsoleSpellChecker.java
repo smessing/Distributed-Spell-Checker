@@ -10,8 +10,13 @@ public class ConsoleSpellChecker extends SpellChecker {
 	protected static SpellChecker parent;
 	
 	public static void main(String[] args) {
+		usage(args);
 		
+		parent = new SpellChecker();
 		
+		parent.buildKnownWords();
+		
+		modelEvaluator = new SpellCheckerEvaltuator(parent.getKnownWords());
 		
 	}
 	
