@@ -1,10 +1,8 @@
 package spellchecker;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,7 +11,6 @@ import spellchecker.SpellCheckerEvaluator.Verboseness;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
-import com.google.common.collect.Multiset.Entry;
 
 /*
  * File created on: Mar 11, 2012
@@ -81,12 +78,12 @@ public class SpellChecker {
 
 		Map<String, Integer> proposedCount = getProposedCount(candidates);
 
-		/*for (String proposed : proposedCount.keySet()) {
+		for (String proposed : proposedCount.keySet()) {
 
 			Set<Multiset.Entry<String>> matchedBigrams = matchSecondInBigram(proposed);
 			addBigramWeight(proposed, proposedCount, matchedBigrams);
 
-		}*/
+		}
 
 		return max(proposedCount);
 
@@ -96,7 +93,7 @@ public class SpellChecker {
 			Map<String, Integer> proposedCount,
 			Set<Multiset.Entry<String>> matchedBigrams) {
 
-		for (Multiset.Entry bigram : matchedBigrams) {
+		for (Multiset.Entry<String> bigram : matchedBigrams) {
 			proposedCount.put(proposed, new Integer(bigram.getCount()
 					+ proposedCount.get(proposed)));
 		}
