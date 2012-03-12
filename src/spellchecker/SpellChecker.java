@@ -116,4 +116,12 @@ public class SpellChecker {
 		}
 
 	}
+	
+	protected static void buildBigramModel(Set<Multiset.Entry<String>> bigramSet) {
+		
+		for (Multiset.Entry<String> bigram : bigramSet) {
+			bigrams.put(bigram.getElement(), bigram.getCount());
+		}
+		
+	}
 }
