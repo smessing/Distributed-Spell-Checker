@@ -1,4 +1,5 @@
 package spellchecker;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class TrainingSetGenerator {
 	private static final char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
 			'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
 			'u', 'v', 'w', 'x', 'y', 'z' };
-	
+
 	private static final Pattern nonWord = Pattern
 			.compile("[ \t\n\f\r-.,_;0-9?=:\\]\\[]+");
 
@@ -58,6 +59,16 @@ public class TrainingSetGenerator {
 		}
 
 		return wordOccurrences.entrySet();
+	}
+
+	public Set<Multiset.Entry<String>> buildBigramSet(String fileName)
+			throws UnsupportedOperationException {
+		
+		File file = new File(fileName);
+		Multiset<String> wordOccurrences = null;
+		
+		return wordOccurrences.entrySet();
+
 	}
 
 	/**
