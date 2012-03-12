@@ -16,7 +16,7 @@ public class SpellCheckerEvaluator {
 	private static final ImmutableMap<String, String> development = createTest1Map();
 
 	private static final ImmutableMap<String, String> evaluation = createTest2Map();
-	
+
 	private Map<String, Integer> trainingSet;
 
 	public static enum TestType {
@@ -26,7 +26,7 @@ public class SpellCheckerEvaluator {
 	public static enum Verboseness {
 		VERBOSE, CONCISE
 	}
-	
+
 	public SpellCheckerEvaluator(Map<String, Integer> trainingSet) {
 		this.trainingSet = trainingSet;
 	}
@@ -54,11 +54,17 @@ public class SpellCheckerEvaluator {
 			String proposedAnswer = corrections.get(error);
 			if (correctAnswer.equals(proposedAnswer))
 				correct++;
-			else if (verbosity.equals(Verboseness.VERBOSE))
+			else if (verbosity.equals(Verboseness.VERBOSE)) {
+				int proposedCount = (trainingSet.get(proposedAnswer) == null) ? 0
+						: trainingSet.get(proposedAnswer);
+				int correctCount = (trainingSet.get(correctAnswer) == null) ? 0
+						: trainingSet.get(correctAnswer);
 				System.out
 						.printf(
-								"Mispelling: %s - PROPOSED: %s, TARGET: %s\n",
-								error, proposedAnswer, correctAnswer);
+								"Mispelling: %s - PROPOSED: %s (%d), TARGET: %s (%d)\n",
+								error, proposedAnswer, proposedCount,
+								correctAnswer, correctCount);
+			}
 
 			count++;
 		}
