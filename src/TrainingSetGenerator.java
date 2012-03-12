@@ -22,6 +22,7 @@ public class TrainingSetGenerator {
 	private static final char[] alphabet = { 'a', 'b', 'c', 'd', 'e', 'f', 'g',
 			'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
 			'u', 'v', 'w', 'x', 'y', 'z' };
+	
 	private static final Pattern nonWord = Pattern
 			.compile("[ \t\n\f\r-.,_;0-9?=:\\]\\[]+");
 
@@ -31,7 +32,7 @@ public class TrainingSetGenerator {
 	 * 
 	 * @param fileName
 	 *            The fileName to be opened.
-	 * @return Immutable map of <word, word count> pairs.
+	 * @return Set<Multi.Entry<String>> Bag of words for lazy counting.
 	 * @throws UnsupportedOperationException
 	 *             If file cannot be found.
 	 */
@@ -51,8 +52,8 @@ public class TrainingSetGenerator {
 			wordOccurrences = HashMultiset.create();
 			wordOccurrences.addAll(lowercaseWords);
 		} catch (IOException ioe) {
-			ioe.printStackTrace();
-			System.err.printf("File not found! %s\n", fileName);
+			throw new UnsupportedOperationException("Training file not found! "
+					+ fileName + "\n", ioe);
 		}
 
 		return wordOccurrences.entrySet();
@@ -89,7 +90,7 @@ public class TrainingSetGenerator {
 	public Multiset<String> editDist2(Multiset<String> editsOne) {
 
 		Multiset<String> editsTwo = HashMultiset.create();
-		
+
 		for (String editOne : editsOne) {
 			editsTwo.addAll(editDist1(editOne));
 		}
@@ -98,7 +99,7 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Multiset<String> buildInserts(Set<Tuple<String, String>> splits) { 
+	private Multiset<String> buildInserts(Set<Tuple<String, String>> splits) {
 
 		Multiset<String> inserts = HashMultiset.create();
 

@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -16,6 +17,7 @@ import com.google.common.collect.Multiset;
 public class SpellChecker {
 
 	private static Map<String, Integer> knownWords = new HashMap<String, Integer>();
+	private static TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
 
 	/**
 	 * @param args
@@ -23,8 +25,23 @@ public class SpellChecker {
 	public static void main(String[] args) {
 		usage(args);
 
-		TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
 		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
+
+		Iterator<String> testSet = SpellCheckerEvaluatorFactory
+				.getTestErrors(SpellCheckerEvaluatorFactory.TestNumber.TEST1);
+
+		Map<String, String> proposedCorrections = new HashMap<String, String>();
+
+		while (testSet.hasNext()) {
+			String misspelling = testSet.next();
+			String correction = getCorrection(misspelling);
+			proposedCorrections.put(misspelling, correction);
+		}
+		
+		System.out.printf("Percent correct on test1: %f\n",
+				SpellCheckerEvaluatorFactory.evaluateCorrections(
+						proposedCorrections,
+						SpellCheckerEvaluatorFactory.TestNumber.TEST1));
 
 		boolean quit = false;
 		while (!quit) {
@@ -36,16 +53,8 @@ public class SpellChecker {
 				if (word.equals("quit")) {
 					quit = true;
 				} else {
-					Multiset<String> wordItself = HashMultiset.create();
-					wordItself.add(word);
-					Multiset<String> candidates = HashMultiset.create();
-					candidates.addAll(getKnownWords(wordItself));
-					Multiset<String> edits1 = getKnownWords(trainingGenerator
-							.editDist1(word));
-					candidates.addAll(edits1);
-					candidates.addAll(getKnownWords(trainingGenerator
-							.editDist2(edits1)));
-					System.out.printf("Suggested correction: %s\n", max(candidates));
+					System.out.printf("Suggested correction: %s\n",
+							getCorrection(word));
 
 				}
 			} catch (IOException ioe) {
@@ -64,6 +73,22 @@ public class SpellChecker {
 			System.err.printf("Didn't specify just a training set!\n");
 			System.exit(1);
 		}
+	}
+
+	private static String getCorrection(String misspelling) {
+
+		Multiset<String> wordItself = HashMultiset.create();
+		Multiset<String> candidates = HashMultiset.create();
+
+		wordItself.add(misspelling);
+		candidates.addAll(getKnownWords(wordItself));
+		Multiset<String> edits1 = getKnownWords(trainingGenerator
+				.editDist1(misspelling));
+		candidates.addAll(edits1);
+		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
+
+		return max(candidates);
+
 	}
 
 	private static Multiset<String> getKnownWords(
