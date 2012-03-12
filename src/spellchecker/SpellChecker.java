@@ -86,7 +86,7 @@ public class SpellChecker {
 
 		System.out
 				.printf(
-						"Words tested: %d, percent correct: %f, %d milliseconds, %f ms/word\n",
+						"Words tested: %d, percent correct: %f, time taken: %d milliseconds, %f ms/word\n",
 						proposedCorrections.keySet().size(), accuracy, seconds,
 						proposedCorrections.keySet().size() / (float) seconds);
 
