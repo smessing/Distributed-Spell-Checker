@@ -103,7 +103,10 @@ public class SpellChecker {
 		Multiset<String> edits1 = getKnownWords(trainingGenerator
 				.editDist1(misspelling));
 		candidates.addAll(edits1);
-		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
+		Multiset<String> edits2 = getKnownWords(trainingGenerator
+				.editDist2(edits1));
+		candidates.addAll(getKnownWords(edits2));
+		//candidates.addAll(getKnownWords(trainingGenerator.editDist3(edits2)));
 
 		return max(candidates);
 
