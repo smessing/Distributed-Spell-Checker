@@ -81,12 +81,12 @@ public class SpellChecker {
 
 		Map<String, Integer> proposedCount = getProposedCount(candidates);
 
-		for (String proposed : proposedCount.keySet()) {
+		/*for (String proposed : proposedCount.keySet()) {
 
 			Set<Multiset.Entry<String>> matchedBigrams = matchSecondInBigram(proposed);
 			addBigramWeight(proposed, proposedCount, matchedBigrams);
 
-		}
+		}*/
 
 		return max(proposedCount);
 
@@ -94,12 +94,13 @@ public class SpellChecker {
 
 	private static void addBigramWeight(String proposed,
 			Map<String, Integer> proposedCount,
-			Set<Entry<String>> matchedBigrams) {
-		
-		
-		
-		
-		
+			Set<Multiset.Entry<String>> matchedBigrams) {
+
+		for (Multiset.Entry bigram : matchedBigrams) {
+			proposedCount.put(proposed, new Integer(bigram.getCount()
+					+ proposedCount.get(proposed)));
+		}
+
 	}
 
 	private static Multiset<String> getKnownWords(
@@ -176,6 +177,5 @@ public class SpellChecker {
 		return proposalCounts;
 
 	}
-	
 
 }
