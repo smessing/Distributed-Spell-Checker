@@ -79,7 +79,8 @@ public class SpellChecker {
 						proposedCorrections.keySet().size(),
 						SpellCheckerEvaluator.evaluateCorrections(
 								proposedCorrections,
-								SpellCheckerEvaluator.TestType.DEVELOPMENT),
+								SpellCheckerEvaluator.TestType.DEVELOPMENT,
+								SpellCheckerEvaluator.Verboseness.VERBOSE),
 						seconds, proposedCorrections.keySet().size()
 								/ (float) seconds);
 
@@ -103,8 +104,7 @@ public class SpellChecker {
 		Multiset<String> edits1 = getKnownWords(trainingGenerator
 				.editDist1(misspelling));
 		candidates.addAll(edits1);
-		candidates.addAll(getKnownWords(trainingGenerator
-				.editDist2(edits1)));
+		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
 
 		return max(candidates);
 
