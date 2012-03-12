@@ -25,6 +25,9 @@ public class SpellChecker {
 	protected static SpellCheckerEvaluator modelEvaluator;
 
 	protected static void evaluateModel() {
+		if (modelEvaluator == null)
+			modelEvaluator = new SpellCheckerEvaluator(knownWords);
+		
 		Iterator<String> testSet = SpellCheckerEvaluator
 				.getTestErrors(TestType.DEVELOPMENT);
 
