@@ -49,7 +49,7 @@ public class SpellCheckerEvaluator {
 			else if (verbosity.equals(Verboseness.VERBOSE))
 				System.out
 						.printf(
-								"Mispelling: %s, Proposed : %s, Target: %s\n",
+								"Mispelling: %s - PROPOSED: %s, TARGET: %s\n",
 								error, proposedAnswer, correctAnswer);
 
 			count++;
