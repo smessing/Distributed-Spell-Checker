@@ -1,8 +1,10 @@
 package spellchecker;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,6 +77,8 @@ public class SpellChecker {
 				.editDist1(misspelling));
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
+		
+		Map<String, Integer> proposedCount = getProposedCount(candidates);
 
 		return max(candidates);
 
@@ -122,6 +126,37 @@ public class SpellChecker {
 		for (Multiset.Entry<String> bigram : bigramSet) {
 			bigrams.put(bigram.getElement(), bigram.getCount());
 		}
+		
+	}
+	
+	protected static Set<Multiset.Entry<String>> matchSecondInBigram(String second) {
+		
+		
+		Multiset<String> matchedBigrams = HashMultiset.create();
+		
+		for (String bigram : bigrams.keySet()) {
+			String[] split = bigram.split(" ");
+			if (split.length == 2) {
+				if (split[1].equals(second)) {
+					matchedBigrams.add(bigram);
+				}
+			}
+		}
+		
+		
+		return matchedBigrams.entrySet();
+	}
+	
+	private static Map<String, Integer> getProposedCount(Multiset<String> proposals) {
+		
+		Map<String, Integer> proposalCounts = new HashMap<String, Integer>();
+		
+		for (String proposal : proposals) {
+			proposalCounts.put(proposal, proposals.count(proposal));
+		}
+		
+		return proposalCounts;
+		
 		
 	}
 }
