@@ -45,7 +45,6 @@ public class SpellChecker {
 					candidates.addAll(edits1);
 					candidates.addAll(getKnownWords(trainingGenerator
 							.editDist2(edits1)));
-					trainingGenerator.editDist1(word);
 					System.out.printf("Correction: %s\n", max(candidates));
 
 				}
