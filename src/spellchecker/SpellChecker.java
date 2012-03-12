@@ -27,44 +27,7 @@ public class SpellChecker {
 	protected static TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
 	protected static SpellCheckerEvaluator modelEvaluator;
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		usage(args);
-
-		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
-
-		modelEvaluator = new SpellCheckerEvaluator(knownWords);
-
-		evaluateModel();
-
-		boolean quit = false;
-		while (!quit) {
-			BufferedReader inputText = new BufferedReader(
-					new InputStreamReader(System.in));
-			System.out.print("Enter misspelled word: ");
-			try {
-				String word = inputText.readLine();
-				if (word.equals("quit")) {
-					quit = true;
-					System.out.println("Quitting spellchecker.");
-				} else {
-					System.out.printf("Suggested correction: %s\n",
-							getCorrection(word));
-
-				}
-			} catch (IOException ioe) {
-				ioe.printStackTrace();
-				System.exit(1);
-			}
-		}
-
-		System.exit(1);
-
-	}
-
-	private static void evaluateModel() {
+	protected static void evaluateModel() {
 		Iterator<String> testSet = SpellCheckerEvaluator
 				.getTestErrors(TestType.DEVELOPMENT);
 
