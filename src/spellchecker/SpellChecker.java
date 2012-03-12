@@ -22,9 +22,10 @@ import com.google.common.collect.Multiset;
 
 public class SpellChecker {
 
-	private static Map<String, Integer> knownWords = new HashMap<String, Integer>();
-	private static TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
-	private static SpellCheckerEvaluator modelEvaluator;
+	protected static Map<String, Integer> knownWords = new HashMap<String, Integer>();
+	protected static Map<String, Integer> bigrams = new HashMap<String, Integer>();
+	protected static TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
+	protected static SpellCheckerEvaluator modelEvaluator;
 
 	/**
 	 * @param args
@@ -92,7 +93,7 @@ public class SpellChecker {
 
 	}
 
-	private static void usage(String[] args) {
+	protected static void usage(String[] args) {
 		if (args.length != 1) {
 			System.err.println("Length of args: " + args.length);
 			System.err.printf("Didn't specify just a training set!\n");
@@ -100,7 +101,7 @@ public class SpellChecker {
 		}
 	}
 
-	private static String getCorrection(String misspelling) {
+	protected static String getCorrection(String misspelling) {
 
 		Multiset<String> wordItself = HashMultiset.create();
 		Multiset<String> candidates = HashMultiset.create();
@@ -145,7 +146,7 @@ public class SpellChecker {
 		return bestCandidate;
 	}
 
-	private static void buildKnownWords(Set<Multiset.Entry<String>> wordSet) {
+	protected static void buildKnownWords(Set<Multiset.Entry<String>> wordSet) {
 
 		for (Multiset.Entry<String> word : wordSet) {
 			knownWords.put(word.getElement(), word.getCount());
