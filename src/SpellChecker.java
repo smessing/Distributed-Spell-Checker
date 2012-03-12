@@ -45,7 +45,7 @@ public class SpellChecker {
 					candidates.addAll(edits1);
 					candidates.addAll(getKnownWords(trainingGenerator
 							.editDist2(edits1)));
-					System.out.printf("Correction: %s\n", max(candidates));
+					System.out.printf("Suggested correction: %s\n", max(candidates));
 
 				}
 			} catch (IOException ioe) {
