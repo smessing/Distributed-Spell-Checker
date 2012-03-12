@@ -44,6 +44,10 @@ public class SpellCheckerEvaluator {
 		int count = 0;
 		int correct = 0;
 
+		if (verbosity.equals(Verboseness.VERBOSE))
+			System.out.printf("Size of training corpus: %d\n", trainingSet
+					.size());
+
 		for (String error : corrections.keySet()) {
 			String correctAnswer = "";
 			if (type.equals(TestType.DEVELOPMENT)) {
@@ -61,7 +65,7 @@ public class SpellCheckerEvaluator {
 						: trainingSet.get(correctAnswer);
 				System.out
 						.printf(
-								"Mispelling: %s - PROPOSED: %s (%d), TARGET: %s (%d)\n",
+								"getCorrection('%s') - PROPOSED: %s (%d), TARGET: %s (%d)\n",
 								error, proposedAnswer, proposedCount,
 								correctAnswer, correctCount);
 			}
