@@ -65,7 +65,7 @@ public class SpellChecker {
 
 	private static void evaluateModel() {
 		Iterator<String> testSet = SpellCheckerEvaluator
-				.getTestErrors(SpellCheckerEvaluator.TestType.DEVELOPMENT);
+				.getTestErrors(TestType.DEVELOPMENT);
 
 		Map<String, String> proposedCorrections = new HashMap<String, String>();
 
