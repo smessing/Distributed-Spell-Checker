@@ -26,9 +26,9 @@ public class SpellCheckerTester extends TestCase {
 	
 	/*
 	 * Ideas for tomorrow:
-	 * - See about accuracy/speed tradeoff to calculating edit distance 3.
-	 * - Read Norvig's notes.
 	 * - Refactor SpellChecker and Main() class --- Main() should be in driver program.
+	 * - Weight edit operations to preference some over others (which?)
+	 * - Add bigrams to model.
 	 * - Develop distributed design.
 	 * 
 	 * 
