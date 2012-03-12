@@ -17,7 +17,7 @@ public class SpellCheckerEvaluator {
 
 	public static enum TestType {
 		DEVELOPMENT, EVALUATION
-	};
+	}
 
 	public static enum Verboseness {
 		VERBOSE, CONCISE
@@ -49,7 +49,7 @@ public class SpellCheckerEvaluator {
 			else if (verbosity.equals(Verboseness.VERBOSE))
 				System.out
 						.printf(
-								"Mispelling: %s, Proposed Correction: %s, Correct Correction: %s",
+								"Mispelling: %s, Proposed : %s, Target: %s\n",
 								error, proposedAnswer, correctAnswer);
 
 			count++;
