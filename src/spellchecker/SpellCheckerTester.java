@@ -26,7 +26,6 @@ public class SpellCheckerTester extends TestCase {
 	
 	/*
 	 * Ideas for tomorrow:
-	 * - Refactor SpellChecker and Main() class --- Main() should be in driver program.
 	 * - Weight edit operations to preference some over others (which?)
 	 * - Add bigrams to model.
 	 * - Develop distributed design.
