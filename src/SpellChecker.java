@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +15,7 @@ import com.google.common.collect.Multiset;
 
 public class SpellChecker {
 
-	private static Map<String, Integer> knownWords;
+	private static Map<String, Integer> knownWords = new HashMap<String, Integer>();
 
 	/**
 	 * @param args
@@ -38,13 +39,12 @@ public class SpellChecker {
 					Multiset<String> wordItself = HashMultiset.create();
 					wordItself.add(word);
 					Multiset<String> candidates = HashMultiset.create();
-					// currently all of these are returning null:
 					candidates.addAll(getKnownWords(wordItself));
+					Multiset<String> edits1 = getKnownWords(trainingGenerator
+							.editDist1(word));
+					candidates.addAll(edits1);
 					candidates.addAll(getKnownWords(trainingGenerator
-							.editDist1(word)));
-					// too slow:
-					// candidates.addAll(getKnownWords(trainingGenerator
-					// .editDist2(trainingGenerator.editDist1(word))));
+							.editDist2(edits1)));
 					trainingGenerator.editDist1(word);
 					System.out.printf("Correction: %s\n", max(candidates));
 
@@ -96,9 +96,8 @@ public class SpellChecker {
 		return bestCandidate;
 	}
 
-	private static void buildKnownWords(
-			Set<Multiset.Entry<String>> wordSet) {
-		
+	private static void buildKnownWords(Set<Multiset.Entry<String>> wordSet) {
+
 		for (Multiset.Entry<String> word : wordSet) {
 			knownWords.put(word.getElement(), word.getCount());
 		}
