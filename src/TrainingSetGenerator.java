@@ -98,7 +98,7 @@ public class TrainingSetGenerator {
 
 	}
 
-	private Multiset<String> buildInserts(Set<Tuple<String, String>> splits) {
+	private Multiset<String> buildInserts(Set<Tuple<String, String>> splits) { 
 
 		Multiset<String> inserts = HashMultiset.create();
 

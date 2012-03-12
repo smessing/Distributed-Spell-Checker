@@ -1,7 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import com.google.common.collect.HashMultiset;
@@ -14,7 +14,7 @@ import com.google.common.collect.Multiset;
 
 public class SpellChecker {
 
-	private static Set<Multiset.Entry<String>> knownWords;
+	private static Map<String, Integer> knownWords;
 
 	/**
 	 * @param args
@@ -23,7 +23,7 @@ public class SpellChecker {
 		usage(args);
 
 		TrainingSetGenerator trainingGenerator = new TrainingSetGenerator();
-		knownWords = trainingGenerator.buildWordSet(args[0]);
+		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
 
 		boolean quit = false;
 		while (!quit) {
@@ -43,8 +43,8 @@ public class SpellChecker {
 					candidates.addAll(getKnownWords(trainingGenerator
 							.editDist1(word)));
 					// too slow:
-					//candidates.addAll(getKnownWords(trainingGenerator
-					//		.editDist2(trainingGenerator.editDist1(word))));
+					// candidates.addAll(getKnownWords(trainingGenerator
+					// .editDist2(trainingGenerator.editDist1(word))));
 					trainingGenerator.editDist1(word);
 					System.out.printf("Correction: %s\n", max(candidates));
 
@@ -72,13 +72,12 @@ public class SpellChecker {
 		Multiset<String> verifiedWords = HashMultiset.create();
 
 		for (String candidate : candidateWords) {
-			for (Multiset.Entry<String> entry : knownWords) {
-				if (entry.getElement().equals(candidate)) {
-					verifiedWords.add(candidate);
-				}
+			if (knownWords.containsKey(candidate)) {
+				verifiedWords.add(candidate);
 			}
+
 		}
-		
+
 		return verifiedWords;
 
 	}
@@ -95,5 +94,14 @@ public class SpellChecker {
 		}
 
 		return bestCandidate;
+	}
+
+	private static void buildKnownWords(
+			Set<Multiset.Entry<String>> wordSet) {
+		
+		for (Multiset.Entry<String> word : wordSet) {
+			knownWords.put(word.getElement(), word.getCount());
+		}
+
 	}
 }
