@@ -52,7 +52,7 @@ public class SpellChecker {
 				.printf(
 						"Words tested: %d, percent correct: %f, time taken: %d milliseconds, %f ms/word\n",
 						proposedCorrections.keySet().size(), accuracy, seconds,
-						proposedCorrections.keySet().size() / (float) seconds);
+						(float) seconds / proposedCorrections.keySet().size());
 
 	}
 
@@ -78,12 +78,12 @@ public class SpellChecker {
 
 		Map<String, Integer> proposedCount = getProposedCount(candidates);
 
-		for (String proposed : proposedCount.keySet()) {
+		/*for (String proposed : proposedCount.keySet()) {
 
 			Set<Multiset.Entry<String>> matchedBigrams = matchSecondInBigram(proposed);
 			addBigramWeight(proposed, proposedCount, matchedBigrams);
 
-		}
+		}*/
 
 		return max(proposedCount);
 

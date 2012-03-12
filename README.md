@@ -4,7 +4,7 @@ Based on [Peter Norvig's](http://norvig.com/) essay [How to Write a Spelling Cor
 
 
 ###v 0.1 - non-contextual
-`Words tested: 265, percent correct: 0.618868, time taken: 420 milliseconds, 0.630952 ms/word`
+`Words tested: 265, percent correct: 0.618868, time taken: 420 milliseconds, 1.58490 ms/word`
 
 
 

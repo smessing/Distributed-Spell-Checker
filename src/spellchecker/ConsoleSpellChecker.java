@@ -17,7 +17,7 @@ public class ConsoleSpellChecker extends SpellChecker {
 		usage(args);
 		
 		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
-		buildBigramModel(trainingGenerator.buildBigramSet(args[0]));
+		//buildBigramModel(trainingGenerator.buildBigramSet(args[0]));
 		
 		evaluateModel();
 		
