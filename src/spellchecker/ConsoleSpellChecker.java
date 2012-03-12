@@ -19,6 +19,10 @@ public class ConsoleSpellChecker extends SpellChecker {
 		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
 		buildBigramModel(trainingGenerator.buildBigramSet(args[0]));
 		
+		for (String bigram : bigrams.keySet()) {
+			System.out.println(bigram);
+		}
+		
 		modelEvaluator = new SpellCheckerEvaluator(knownWords);
 		
 

@@ -63,10 +63,28 @@ public class TrainingSetGenerator {
 
 	public Set<Multiset.Entry<String>> buildBigramSet(String fileName)
 			throws UnsupportedOperationException {
-		
+
 		File file = new File(fileName);
 		Multiset<String> wordOccurrences = null;
-		
+
+		try {
+			Iterable<String> words = Splitter.on(nonWord).omitEmptyStrings()
+					.trimResults().split(Files.toString(file, Charsets.UTF_8));
+			List<String> lowercaseWords = new ArrayList<String>();
+			for (String word : words) {
+				lowercaseWords.add(word.toLowerCase());
+			}
+			wordOccurrences = HashMultiset.create();
+			for (int i = 0; i < lowercaseWords.size() - 1; i++) {
+				wordOccurrences.add(new String(lowercaseWords.get(i).toString()
+						+ " " + lowercaseWords.get(i + 1).toString()));
+			}
+
+		} catch (IOException ioe) {
+			throw new UnsupportedOperationException("Training file not found! "
+					+ fileName + "\n", ioe);
+		}
+
 		return wordOccurrences.entrySet();
 
 	}
