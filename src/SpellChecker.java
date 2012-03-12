@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -27,21 +28,7 @@ public class SpellChecker {
 
 		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
 
-		Iterator<String> testSet = SpellCheckerEvaluatorFactory
-				.getTestErrors(SpellCheckerEvaluatorFactory.TestNumber.TEST1);
-
-		Map<String, String> proposedCorrections = new HashMap<String, String>();
-
-		while (testSet.hasNext()) {
-			String misspelling = testSet.next();
-			String correction = getCorrection(misspelling);
-			proposedCorrections.put(misspelling, correction);
-		}
-		
-		System.out.printf("Percent correct on test1: %f\n",
-				SpellCheckerEvaluatorFactory.evaluateCorrections(
-						proposedCorrections,
-						SpellCheckerEvaluatorFactory.TestNumber.TEST1));
+		evaluateModel();
 
 		boolean quit = false;
 		while (!quit) {
@@ -52,6 +39,7 @@ public class SpellChecker {
 				String word = inputText.readLine();
 				if (word.equals("quit")) {
 					quit = true;
+					System.out.println("Quitting spellchecker.");
 				} else {
 					System.out.printf("Suggested correction: %s\n",
 							getCorrection(word));
@@ -64,6 +52,36 @@ public class SpellChecker {
 		}
 
 		System.exit(1);
+
+	}
+
+	private static void evaluateModel() {
+		Iterator<String> testSet = SpellCheckerEvaluator
+				.getTestErrors(SpellCheckerEvaluator.TestType.DEVELOPMENT);
+
+		Map<String, String> proposedCorrections = new HashMap<String, String>();
+
+		Date startTime = new Date();
+
+		while (testSet.hasNext()) {
+			String misspelling = testSet.next();
+			String correction = getCorrection(misspelling);
+			proposedCorrections.put(misspelling, correction);
+		}
+
+		Date endTime = new Date();
+
+		long seconds = endTime.getTime() - startTime.getTime();
+
+		System.out
+				.printf(
+						"Words tested: %d, percent correct: %f, %d milliseconds, %f ms/word\n",
+						proposedCorrections.keySet().size(),
+						SpellCheckerEvaluator.evaluateCorrections(
+								proposedCorrections,
+								SpellCheckerEvaluator.TestType.DEVELOPMENT),
+						seconds, proposedCorrections.keySet().size()
+								/ (float) seconds);
 
 	}
 
