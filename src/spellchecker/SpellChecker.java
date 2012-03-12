@@ -13,6 +13,7 @@ import spellchecker.SpellCheckerEvaluator.Verboseness;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Multiset;
+import com.google.common.collect.Multiset.Entry;
 
 /*
  * File created on: Mar 11, 2012
@@ -29,7 +30,7 @@ public class SpellChecker {
 	protected static void evaluateModel() {
 		if (modelEvaluator == null)
 			modelEvaluator = new SpellCheckerEvaluator(knownWords);
-		
+
 		Iterator<String> testSet = SpellCheckerEvaluator
 				.getTestErrors(TestType.DEVELOPMENT);
 
@@ -77,11 +78,28 @@ public class SpellChecker {
 				.editDist1(misspelling));
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
-		
+
 		Map<String, Integer> proposedCount = getProposedCount(candidates);
 
-		return max(candidates);
+		for (String proposed : proposedCount.keySet()) {
 
+			Set<Multiset.Entry<String>> matchedBigrams = matchSecondInBigram(proposed);
+			addBigramWeight(proposed, proposedCount, matchedBigrams);
+
+		}
+
+		return max(proposedCount);
+
+	}
+
+	private static void addBigramWeight(String proposed,
+			Map<String, Integer> proposedCount,
+			Set<Entry<String>> matchedBigrams) {
+		
+		
+		
+		
+		
 	}
 
 	private static Multiset<String> getKnownWords(
@@ -99,14 +117,14 @@ public class SpellChecker {
 
 	}
 
-	private static String max(Multiset<String> choices) {
+	private static String max(Map<String, Integer> choices) {
 		int maxCount = Integer.MIN_VALUE;
 		String bestCandidate = "";
 
-		for (Multiset.Entry<String> choice : choices.entrySet()) {
-			if (choice.getCount() > maxCount) {
-				maxCount = choice.getCount();
-				bestCandidate = choice.getElement();
+		for (String choice : choices.keySet()) {
+			if (choices.get(choice) > maxCount) {
+				maxCount = choices.get(choice);
+				bestCandidate = choice;
 			}
 		}
 
@@ -120,20 +138,20 @@ public class SpellChecker {
 		}
 
 	}
-	
+
 	protected static void buildBigramModel(Set<Multiset.Entry<String>> bigramSet) {
-		
+
 		for (Multiset.Entry<String> bigram : bigramSet) {
 			bigrams.put(bigram.getElement(), bigram.getCount());
 		}
-		
+
 	}
-	
-	protected static Set<Multiset.Entry<String>> matchSecondInBigram(String second) {
-		
-		
+
+	protected static Set<Multiset.Entry<String>> matchSecondInBigram(
+			String second) {
+
 		Multiset<String> matchedBigrams = HashMultiset.create();
-		
+
 		for (String bigram : bigrams.keySet()) {
 			String[] split = bigram.split(" ");
 			if (split.length == 2) {
@@ -142,21 +160,22 @@ public class SpellChecker {
 				}
 			}
 		}
-		
-		
+
 		return matchedBigrams.entrySet();
 	}
-	
-	private static Map<String, Integer> getProposedCount(Multiset<String> proposals) {
-		
+
+	private static Map<String, Integer> getProposedCount(
+			Multiset<String> proposals) {
+
 		Map<String, Integer> proposalCounts = new HashMap<String, Integer>();
-		
+
 		for (String proposal : proposals) {
 			proposalCounts.put(proposal, proposals.count(proposal));
 		}
-		
+
 		return proposalCounts;
-		
-		
+
 	}
+	
+
 }
