@@ -98,6 +98,18 @@ public class TrainingSetGenerator {
 		return editsTwo;
 
 	}
+	
+	public Multiset<String> editDist3(Multiset<String> editsTwo) {
+		
+		Multiset<String> editsThree = HashMultiset.create();
+		
+		for (String editTwo : editsTwo) {
+			editsThree.addAll(editDist1(editTwo));
+		}
+		
+		return editsThree;
+		
+	}
 
 	private Multiset<String> buildInserts(Set<Tuple<String, String>> splits) {
 

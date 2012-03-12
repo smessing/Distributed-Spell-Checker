@@ -25,10 +25,9 @@ public class SpellCheckerTester extends TestCase {
 	
 	/*
 	 * Ideas for tomorrow:
-	 * - Flesh out this jUnit test as a means to generate statistics on performance.
-	 * - Generate statistics on speed (probably handle in individual tests).
 	 * - See about accuracy/speed tradeoff to calculating edit distance 3.
 	 * - Read Norvig's notes.
+	 * - Refactor SpellChecker and Main() class --- Main() should be in driver program.
 	 * - Develop distributed design.
 	 * 
 	 * 
