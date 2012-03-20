@@ -111,8 +111,8 @@ public class SpellChecker {
 			Set<Multiset.Entry<String>> matchedBigrams) {
 
 		for (Multiset.Entry<String> bigram : matchedBigrams) {
-			proposedCount.put(proposed, new Double(bigram.getCount()
-					+ proposedCount.get(proposed)));
+			proposedCount.put(proposed, new Double((float) bigram.getCount()
+					/ matchedBigrams.size() + proposedCount.get(proposed)));
 		}
 
 	}
