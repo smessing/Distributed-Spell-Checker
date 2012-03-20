@@ -178,13 +178,15 @@ public class SpellChecker {
 		return matchedBigrams.entrySet();
 	}
 
-	private static Map<String, Integer> getProposedCount(
+	private static Map<String, Double> getProposedCount(
 			Multiset<String> proposals) {
 
-		Map<String, Integer> proposalCounts = new HashMap<String, Integer>();
+		Map<String, Double> proposalCounts = new HashMap<String, Double>();
 
 		for (String proposal : proposals) {
-			proposalCounts.put(proposal, proposals.count(proposal));
+			proposalCounts.put(proposal, new Double((float) proposals
+					.count(proposal)
+					/ proposals.size()));
 		}
 
 		return proposalCounts;
