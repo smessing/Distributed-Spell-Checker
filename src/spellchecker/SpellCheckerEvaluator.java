@@ -248,8 +248,8 @@ public class SpellCheckerEvaluator {
 		buildMap.put("what realy", "really");
 		buildMap.put("not relley", "really");
 		buildMap.put("you relly", "really");
-		buildMap.put("diffrent", "different");
-		buildMap.put("clearical", "clerical");
+		buildMap.put("in diffrent", "different");
+		buildMap.put("for clearical", "clerical");
 		buildMap.put("monitering", "monitoring");
 		buildMap.put("biult", "built");
 		buildMap.put("possition", "position");
