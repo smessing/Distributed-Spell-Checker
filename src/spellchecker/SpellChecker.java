@@ -181,15 +181,15 @@ public class SpellChecker {
 	private static Map<String, Double> getProposedWeights(
 			Multiset<String> proposals) {
 
-		Map<String, Double> proposalCounts = new HashMap<String, Double>();
+		Map<String, Double> proposalWeights = new HashMap<String, Double>();
 
 		for (String proposal : proposals) {
-			proposalCounts.put(proposal, new Double((float) proposals
+			proposalWeights.put(proposal, new Double((float) proposals
 					.count(proposal)
 					/ proposals.size()));
 		}
 
-		return proposalCounts;
+		return proposalWeights;
 
 	}
 
