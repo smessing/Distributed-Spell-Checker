@@ -84,14 +84,14 @@ public class SpellCheckerEvaluator {
 	private static ImmutableMap<String, String> createBigramTest1Map() {
 		Map<String, String> buildMap = new HashMap<String, String>();
 
-		buildMap.put("localy", "locally");
-		buildMap.put("usefull", "useful");
-		buildMap.put("concider", "consider");
-		buildMap.put("triangulaur", "triangular");
-		buildMap.put("hierchy", "hierarchy");
-		buildMap.put("occurence", "occurrence");
-		buildMap.put("occurence", "occurrence");
-		buildMap.put("aranging", "arrangeing");
+		buildMap.put("where localy", "locally");
+		buildMap.put("most usefull", "useful");
+		buildMap.put("to concider", "consider");
+		buildMap.put("a triangulaur", "triangular");
+		buildMap.put("dominant hierchy", "hierarchy");
+		buildMap.put("rare occurence", "occurrence");
+		buildMap.put("common occurence", "occurrence");
+		buildMap.put("help aranging", "arranging");
 		buildMap.put("valubale", "valuable");
 		buildMap.put("valuble", "valuable");
 		buildMap.put("sorces", "sources");
@@ -775,7 +775,7 @@ public class SpellCheckerEvaluator {
 		buildMap.put("hierchy", "hierarchy");
 		buildMap.put("occurence", "occurrence");
 		buildMap.put("occurence", "occurrence");
-		buildMap.put("aranging", "arrangeing");
+		buildMap.put("aranging", "arranging");
 		buildMap.put("valubale", "valuable");
 		buildMap.put("valuble", "valuable");
 		buildMap.put("sorces", "sources");
