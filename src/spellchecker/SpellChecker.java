@@ -76,9 +76,9 @@ public class SpellChecker {
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
 
-		Map<String, Double> proposedWeights = getProposedCount(candidates);
+		Map<String, Double> proposedWeights = getProposedWeights(candidates);
 
-		return max(proposedCount);
+		return max(proposedWeights);
 
 	}
 
@@ -178,7 +178,7 @@ public class SpellChecker {
 		return matchedBigrams.entrySet();
 	}
 
-	private static Map<String, Double> getProposedCount(
+	private static Map<String, Double> getProposedWeights(
 			Multiset<String> proposals) {
 
 		Map<String, Double> proposalCounts = new HashMap<String, Double>();
