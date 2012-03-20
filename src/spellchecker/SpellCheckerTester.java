@@ -1,7 +1,5 @@
 package spellchecker;
-import java.util.Iterator;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
 
 
@@ -29,6 +27,8 @@ public class SpellCheckerTester extends TestCase {
 	 * - Weight edit operations to preference some over others (which?)
 	 * - Add bigrams to model.
 	 * - Develop distributed design.
+	 * - Combine buildKnownWords and buildBigramsSet to make one pass.
+	 * - Make editDist2 into generic editDistNPlusOne
 	 * 
 	 * 
 	 * Bored?

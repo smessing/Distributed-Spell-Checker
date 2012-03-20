@@ -10,14 +10,12 @@ import java.io.InputStreamReader;
  */
 
 public class ConsoleSpellChecker extends SpellChecker {
-
-	
 	
 	public static void main(String[] args) {
 		usage(args);
 		
 		buildKnownWords(trainingGenerator.buildWordSet(args[0]));
-		//buildBigramModel(trainingGenerator.buildBigramSet(args[0]));
+		buildBigramModel(trainingGenerator.buildBigramSet(args[0]));
 		
 		evaluateModel();
 		

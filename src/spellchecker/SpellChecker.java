@@ -88,6 +88,12 @@ public class SpellChecker {
 		return max(proposedCount);
 
 	}
+	
+	protected static String getCorrection(String context, String misspelling) {
+		
+		
+		return "";
+	}
 
 	private static void addBigramWeight(String proposed,
 			Map<String, Integer> proposedCount,
