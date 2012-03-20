@@ -78,21 +78,32 @@ public class SpellChecker {
 
 		Map<String, Integer> proposedCount = getProposedCount(candidates);
 
-		/*for (String proposed : proposedCount.keySet()) {
-
-			Set<Multiset.Entry<String>> matchedBigrams = matchSecondInBigram(proposed);
-			addBigramWeight(proposed, proposedCount, matchedBigrams);
-
-		}*/
-
 		return max(proposedCount);
 
 	}
-	
+
 	protected static String getCorrection(String context, String misspelling) {
-		
-		
-		return "";
+
+		Multiset<String> wordItself = HashMultiset.create();
+		Multiset<String> candidates = HashMultiset.create();
+
+		wordItself.add(misspelling);
+		candidates.addAll(getKnownWords(wordItself));
+		Multiset<String> edits1 = getKnownWords(trainingGenerator
+				.editDist1(misspelling));
+		candidates.addAll(edits1);
+		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
+
+		Map<String, Integer> proposedCount = getProposedCount(candidates);
+
+		for (String proposed : proposedCount.keySet()) {
+
+			Set<Multiset.Entry<String>> matchedBigrams = matchFirstInBigram(proposed);
+			addBigramWeight(proposed, proposedCount, matchedBigrams);
+
+		}
+
+		return max(proposedCount);
 	}
 
 	private static void addBigramWeight(String proposed,
@@ -151,15 +162,14 @@ public class SpellChecker {
 
 	}
 
-	protected static Set<Multiset.Entry<String>> matchSecondInBigram(
-			String second) {
+	protected static Set<Multiset.Entry<String>> matchFirstInBigram(String first) {
 
 		Multiset<String> matchedBigrams = HashMultiset.create();
 
 		for (String bigram : bigrams.keySet()) {
 			String[] split = bigram.split(" ");
 			if (split.length == 2) {
-				if (split[1].equals(second)) {
+				if (split[0].equals(first)) {
 					matchedBigrams.add(bigram);
 				}
 			}
