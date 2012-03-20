@@ -76,7 +76,7 @@ public class SpellChecker {
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
 
-		Map<String, Integer> proposedCount = getProposedCount(candidates);
+		Map<String, Double> proposedCount = getProposedCount(candidates);
 
 		return max(proposedCount);
 
@@ -94,7 +94,7 @@ public class SpellChecker {
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
 
-		Map<String, Integer> proposedCount = getProposedCount(candidates);
+		Map<String, Double> proposedCount = getProposedCount(candidates);
 
 		for (String proposed : proposedCount.keySet()) {
 
@@ -107,11 +107,11 @@ public class SpellChecker {
 	}
 
 	private static void addBigramWeight(String proposed,
-			Map<String, Integer> proposedCount,
+			Map<String, Double> proposedCount,
 			Set<Multiset.Entry<String>> matchedBigrams) {
 
 		for (Multiset.Entry<String> bigram : matchedBigrams) {
-			proposedCount.put(proposed, new Integer(bigram.getCount()
+			proposedCount.put(proposed, new Double(bigram.getCount()
 					+ proposedCount.get(proposed)));
 		}
 
@@ -132,13 +132,13 @@ public class SpellChecker {
 
 	}
 
-	private static String max(Map<String, Integer> choices) {
-		int maxCount = Integer.MIN_VALUE;
+	private static String max(Map<String, Double> choices) {
+		Double maxWeight = Double.MIN_VALUE;
 		String bestCandidate = "";
 
 		for (String choice : choices.keySet()) {
-			if (choices.get(choice) > maxCount) {
-				maxCount = choices.get(choice);
+			if (choices.get(choice) > maxWeight) {
+				maxWeight = choices.get(choice);
 				bestCandidate = choice;
 			}
 		}
