@@ -22,7 +22,7 @@ public class ConsoleSpellChecker extends SpellChecker {
 		String context = "correct";
 		String misspelling = "spellig";
 		System.out.printf("Bigram test: %s %s\n", context, misspelling);
-		System.out.printf("Correct: %s\n", getCorrection(context, misspelling));
+		System.out.printf("Corrected: %s\n", getCorrection(context, misspelling));
 		
 		boolean quit = false;
 		while (!quit) {
