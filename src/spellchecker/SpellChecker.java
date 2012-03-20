@@ -76,7 +76,7 @@ public class SpellChecker {
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
 
-		Map<String, Double> proposedCount = getProposedCount(candidates);
+		Map<String, Double> proposedWeights = getProposedCount(candidates);
 
 		return max(proposedCount);
 
