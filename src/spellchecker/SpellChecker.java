@@ -94,16 +94,16 @@ public class SpellChecker {
 		candidates.addAll(edits1);
 		candidates.addAll(getKnownWords(trainingGenerator.editDist2(edits1)));
 
-		Map<String, Double> proposedCount = getProposedCount(candidates);
+		Map<String, Double> proposedWeights = getProposedWeights(candidates);
 
-		for (String proposed : proposedCount.keySet()) {
+		for (String proposed : proposedWeights.keySet()) {
 
 			Set<Multiset.Entry<String>> matchedBigrams = matchFirstInBigram(proposed);
-			addBigramWeight(proposed, proposedCount, matchedBigrams);
+			addBigramWeight(proposed, proposedWeights, matchedBigrams);
 
 		}
 
-		return max(proposedCount);
+		return max(proposedWeights);
 	}
 
 	private static void addBigramWeight(String proposed,
