@@ -55,7 +55,7 @@ public class SpellChecker {
 						"Words tested: %d, percent correct: %f, time taken: %d milliseconds, %f ms/word\n",
 						proposedCorrections.keySet().size(), accuracy, seconds,
 						(float) seconds / proposedCorrections.keySet().size());
-
+/*
 		testSet = SpellCheckerEvaluator
 				.getTestErrors(NGramType.BIGRAM, TestType.DEVELOPMENT);
 
@@ -83,7 +83,7 @@ public class SpellChecker {
 						"Bigrams tested: %d, percent correct: %f, time taken: %d milliseconds, %f ms/word\n",
 						proposedCorrections.keySet().size(), accuracy, seconds,
 						(float) seconds / proposedCorrections.keySet().size());
-
+*/
 	}
 
 	protected static void usage(String[] args) {
