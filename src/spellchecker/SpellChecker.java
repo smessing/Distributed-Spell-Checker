@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import spellchecker.SpellCheckerEvaluator.NGramType;
 import spellchecker.SpellCheckerEvaluator.TestType;
 import spellchecker.SpellCheckerEvaluator.Verboseness;
 
@@ -46,11 +47,40 @@ public class SpellChecker {
 		long seconds = endTime.getTime() - startTime.getTime();
 
 		double accuracy = modelEvaluator.evaluateCorrections(
-				proposedCorrections, TestType.DEVELOPMENT, Verboseness.VERBOSE);
+				proposedCorrections, NGramType.UNIGRAM, TestType.DEVELOPMENT,
+				Verboseness.VERBOSE);
 
 		System.out
 				.printf(
 						"Words tested: %d, percent correct: %f, time taken: %d milliseconds, %f ms/word\n",
+						proposedCorrections.keySet().size(), accuracy, seconds,
+						(float) seconds / proposedCorrections.keySet().size());
+
+		testSet = SpellCheckerEvaluator
+				.getBigramTestErrors(TestType.DEVELOPMENT);
+
+		proposedCorrections = new HashMap<String, String>();
+
+		startTime = new Date();
+
+		while (testSet.hasNext()) {
+			String bigram = testSet.next();
+			String context = bigram.split(" ")[0];
+			String misspelling = bigram.split(" ")[1];
+			String correction = getCorrection(context, misspelling);
+			proposedCorrections.put(bigram, correction);
+		}
+
+		endTime = new Date();
+
+		seconds = endTime.getTime() - startTime.getTime();
+
+		accuracy = modelEvaluator.evaluateCorrections(proposedCorrections,
+				NGramType.BIGRAM, TestType.DEVELOPMENT, Verboseness.VERBOSE);
+
+		System.out
+				.printf(
+						"Bigrams tested: %d, percent correct: %f, time taken: %d milliseconds, %f ms/word\n",
 						proposedCorrections.keySet().size(), accuracy, seconds,
 						(float) seconds / proposedCorrections.keySet().size());
 
@@ -111,7 +141,8 @@ public class SpellChecker {
 			Set<Multiset.Entry<String>> matchedBigrams) {
 
 		for (Multiset.Entry<String> bigram : matchedBigrams) {
-			// note: we're adding probabilities here, though that might not be correct...
+			// note: we're adding probabilities here, though that might not be
+			// correct...
 			proposedCount.put(proposed, new Double((float) bigram.getCount()
 					/ matchedBigrams.size() + proposedCount.get(proposed)));
 		}

@@ -15,11 +15,11 @@ public class SpellCheckerEvaluator {
 
 	private static final ImmutableMap<String, String> development = createTest1Map();
 
-	private static final ImmutableMap<String, String> developmentBigram = createBigramTest1Map();
+	private static final ImmutableMap<String, String> developmentBigrams = createBigramTest1Map();
 
 	private static final ImmutableMap<String, String> evaluation = createTest2Map();
 
-	private static final ImmutableMap<String, String> evaluationBigram = createBigramTest2Map();
+	private static final ImmutableMap<String, String> evaluationBigrams = createBigramTest2Map();
 
 	private Map<String, Integer> trainingSet;
 
@@ -30,20 +30,53 @@ public class SpellCheckerEvaluator {
 	public static enum Verboseness {
 		VERBOSE, CONCISE
 	}
+	
+	public static enum NGramType {
+		UNIGRAM, BIGRAM
+	}
 
 	public SpellCheckerEvaluator(Map<String, Integer> trainingSet) {
 		this.trainingSet = trainingSet;
 	}
 
-	public static Iterator<String> getTestErrors(TestType type) {
+	public static Iterator<String> getTestErrors(NGramType ngram, TestType type) {
+		
+		Iterator<String> iterator = null;
+		
+		switch(ngram) {
+		case UNIGRAM:
+			switch(type) {
+			case EVALUATION:
+				iterator = evaluation.keySet().iterator();
+				break;
+			case DEVELOPMENT:
+				iterator = development.keySet().iterator();
+				break;
+			}
+		case BIGRAM:
+			switch(type) {
+			case EVALUATION:
+				iterator = evaluationBigrams.keySet().iterator();
+				break;
+			case DEVELOPMENT:
+				iterator = developmentBigrams.keySet().iterator();
+				break;
+			}
+		}
+		
+		return iterator;
+		
+	}
+	
+	public static Iterator<String> getBigramTestErrors(TestType type) {
 		if (type.equals(TestType.DEVELOPMENT))
-			return development.keySet().iterator();
+			return developmentBigrams.keySet().iterator();
 		else
-			return evaluation.keySet().iterator();
+			return evaluationBigrams.keySet().iterator();
 	}
 
 	public double evaluateCorrections(Map<String, String> corrections,
-			TestType type, Verboseness verbosity) {
+			NGramType ngram, TestType type, Verboseness verbosity) {
 
 		int count = 0;
 		int correct = 0;
@@ -80,7 +113,7 @@ public class SpellCheckerEvaluator {
 		return (float) correct / count;
 
 	}
-
+	
 	private static ImmutableMap<String, String> createBigramTest1Map() {
 		Map<String, String> buildMap = new HashMap<String, String>();
 
