@@ -39,7 +39,6 @@ public class SpellCheckerEvaluator {
 		this.trainingSet = trainingSet;
 	}
 
-	@SuppressWarnings("fallthrough")
 	public static Iterator<String> getTestErrors(NGramType ngram, TestType type) {
 		
 		Iterator<String> iterator = null;
@@ -54,6 +53,7 @@ public class SpellCheckerEvaluator {
 				iterator = development.keySet().iterator();
 				break;
 			}
+			break;
 		case BIGRAM:
 			switch(type) {
 			case EVALUATION:
@@ -68,13 +68,6 @@ public class SpellCheckerEvaluator {
 		return iterator;
 		
 	}
-	
-	public static Iterator<String> getBigramTestErrors(TestType type) {
-		if (type.equals(TestType.DEVELOPMENT))
-			return developmentBigrams.keySet().iterator();
-		else
-			return evaluationBigrams.keySet().iterator();
-	}
 
 	public double evaluateCorrections(Map<String, String> corrections,
 			NGramType ngram, TestType type, Verboseness verbosity) {
@@ -88,6 +81,28 @@ public class SpellCheckerEvaluator {
 
 		for (String error : corrections.keySet()) {
 			String correctAnswer = "";
+			switch(ngram) {
+			case UNIGRAM:
+				switch(type) {
+				case DEVELOPMENT:
+					correctAnswer = development.get(error);
+					break;
+				case EVALUATION:
+					correctAnswer = evaluation.get(error);
+					break;
+				}
+				break;
+			case BIGRAM:
+				switch(type) {
+				case DEVELOPMENT:
+					correctAnswer = developmentBigrams.get(error);
+					break;
+				case EVALUATION:
+					correctAnswer = developmentBigrams.get(error);
+					break;
+				}
+			}
+			
 			if (type.equals(TestType.DEVELOPMENT)) {
 				correctAnswer = development.get(error);
 			} else {
