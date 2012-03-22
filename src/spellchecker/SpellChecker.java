@@ -30,7 +30,7 @@ public class SpellChecker {
 			modelEvaluator = new SpellCheckerEvaluator(knownWords);
 
 		Iterator<String> testSet = SpellCheckerEvaluator
-				.getTestErrors(TestType.DEVELOPMENT);
+				.getTestErrors(NGramType.UNIGRAM, TestType.DEVELOPMENT);
 
 		Map<String, String> proposedCorrections = new HashMap<String, String>();
 
@@ -57,7 +57,7 @@ public class SpellChecker {
 						(float) seconds / proposedCorrections.keySet().size());
 
 		testSet = SpellCheckerEvaluator
-				.getBigramTestErrors(TestType.DEVELOPMENT);
+				.getTestErrors(NGramType.BIGRAM, TestType.DEVELOPMENT);
 
 		proposedCorrections = new HashMap<String, String>();
 

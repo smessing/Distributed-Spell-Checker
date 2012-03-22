@@ -39,6 +39,7 @@ public class SpellCheckerEvaluator {
 		this.trainingSet = trainingSet;
 	}
 
+	@SuppressWarnings("fallthrough")
 	public static Iterator<String> getTestErrors(NGramType ngram, TestType type) {
 		
 		Iterator<String> iterator = null;
